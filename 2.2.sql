@@ -29,7 +29,7 @@ INSERT INTO dbo.StateProvince (
     IsOnlyStateProvinceFlag,
     Name,
     ModifiedDate)
-SELECT TOP 1 WITH TIES
+SELECT TOP(1) WITH TIES
     stpr.StateProvinceID,
     stpr.StateProvinceCode,
     stpr.CountryRegionCode,
@@ -42,7 +42,7 @@ INNER JOIN Person.BusinessEntityAddress beaddr ON beaddr.AddressID = addr.Addres
 INNER JOIN Person.AddressType addrtp           ON addrtp.AddressTypeID = beaddr.AddressTypeID
 WHERE addrtp.Name = 'Shipping'
 ORDER BY ROW_NUMBER() OVER (PARTITION BY stpr.StateProvinceID, stpr.StateProvinceCode
-                            ORDER BY addr.AddressID desc);
+                            ORDER BY addr.AddressID DESC);
 
 ALTER TABLE dbo.StateProvince
 ALTER COLUMN IsOnlyStateProvinceFlag SMALLINT NULL;
