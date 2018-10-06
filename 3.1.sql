@@ -29,10 +29,7 @@ SELECT @AddressTypesCount = COUNT(*) FROM Person.AddressType;
 UPDATE @StateProvince
 SET
     AddressType = (
-        SELECT
-            at.Name
-        FROM Person.AddressType at
-        WHERE at.AddressTypeID = (ABS(CHECKSUM(NewId())) % @AddressTypesCount) + 1
+        SELECT TOP 1 Name FROM Person.AddressType ORDER BY NEWID()
     );
 
 UPDATE dest
